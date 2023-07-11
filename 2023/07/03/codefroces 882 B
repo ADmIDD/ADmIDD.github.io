@@ -1,0 +1,46 @@
+**1. 题目介绍**  
+[题目链接](https://codeforc.es/contest/1847/problem/B)，给定一个长为n的数组，需满足两个条件：  
+> 如何划分该数组使得每组数组相与的和最小。  
+> 在满足上面一个条件的同时，尽可能将该该数组划分很多个。
+
+**2. 题目思路**  
+每次多增加一个数相与，该数组的值势必变得更小，因为要尽可能多的划分，所以每次遇到前缀与和为0时，就将其清空，同时cnt++。该题实际就两种情况，该数组全部相与可以为0，数组全部相与不能为0。第二种情况则该数组只能划分为1个。  
+边界问题：  
+> 如果最后一组数相与不为0，则其不能单独作为一个小组存在，因与前面一组为0的小组和并。（为了满足第一个条件）  
+> 如果这个数组全部相与也不为0，则在结束时应将其cnt++，使其为1。  
+
+**3. 代码部分**  
+```c++
+#include<iostream>
+#include<vector>
+using namespace std;
+
+int main()
+{
+	int t;
+	cin >> t;
+	while (t--)
+	{
+		int n;
+		cin >> n;
+		vector<int> V(n);
+		for (int i = 0; i < n; i++) cin >> V[i];
+
+		int sum = V[0];
+		int cnt = 0;
+		for (int i = 1; i < n; i++)
+		{
+			if (sum == 0)
+			{
+				sum = V[i];
+				cnt++;
+			}
+			else sum = sum & V[i];
+		}
+		if (sum == 0 || cnt == 0) cnt++;
+
+		cout << cnt << endl;
+	}
+	return 0;
+}
+``````
